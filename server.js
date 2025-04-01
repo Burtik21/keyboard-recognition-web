@@ -25,7 +25,7 @@ if (!fs.existsSync('uploads')) {
 }
 
 // POST endpoint
-app.post('/upload-audio', upload.single('audio'), (req, res) => {
+app.post('/keyboard/upload-audio', upload.single('audio'), (req, res) => {
     console.log(`📥 Přijatý soubor: ${req.file.originalname}`);
     res.status(200).send('✅ Audio úspěšně přijato!');
 });
