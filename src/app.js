@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const audioRoutes = require('./routes/audioRoutes');
+const http = require("http");
 require('dotenv').config();
 //const sequelize = require('./config/db');
 
@@ -32,8 +33,12 @@ app.use(session({
 app.use('/keyboard/', audioRoutes);
 app.use('/keyboard/audio', audioRoutes);
 //app.use("/auth", authRoutes)
+const server = http.createServer(app);
+const PORT = process.env.PORT || 5500;
+server.listen(PORT, () => {
+    console.log(`✅ Server běží na http://localhost:${PORT}/keyboard`);
+});
 
 
-module.exports = app;
 
 // Spuštění serveru
