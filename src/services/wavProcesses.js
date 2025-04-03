@@ -6,9 +6,9 @@ const util = require('util');
 // Převod exec na Promise-based funkci
 const execPromise = util.promisify(exec);
 //absolutni cesta kde budou nahravky ukladany pro dalsi extrakci v pythonu
-//const uploadFolder = '/home/ubuntu/uploads'
+const uploadFolder = '/home/ubuntu/uploads'
 // Cesty pro složky
-const uploadFolder = path.join(__dirname, '..', 'uploads');
+//const uploadFolder = path.join(__dirname, '..', 'uploads');
 const convertedFolder = path.join(__dirname, '..', 'converted');
 const savedWavsFolder = path.join(__dirname, '..', 'saved_wavs');
 
