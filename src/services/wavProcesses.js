@@ -36,8 +36,8 @@ async function saveWav(inputPath) {
         // Uložení konvertovaného souboru do složky saved_wavs
         const savedWavPath = path.join(savedWavsFolder, baseName + '_saved.wav');
         await fs.promises.copyFile(outputPath, savedWavPath); // Kopírování souboru do složky saved_wavs
-        const globalUploads = path.join(uploadFolder, baseName + '.wav.');
-        await fs.promises.copyFile(outputPath, globalUploads);
+        //const globalUploads = path.join(uploadFolder, baseName + '.wav.');
+        //await fs.promises.copyFile(outputPath, globalUploads);
 
         // Cleanup dočasných souborů
         fs.unlinkSync(inputPath);  // Odstraníme původní soubor

@@ -3,7 +3,8 @@ const fs = require('fs');
 const { exec } = require('child_process');
 const util = require('util');
 const  wavProcesess = require("../services/wavProcesses")
-//const  {sendToPython} = require("../services/pythonHandover")
+
+const  pythonHandover = require("../services/pythonHandover")
 const logger = require("../utils/logger")
 
 
@@ -14,12 +15,13 @@ exports.getAudioPage = (req, res) => {
 
 exports.uploadAudio = async (req, res) => {
     let wav_path;
+    let response;
     try {
         const inputPath = req.file.path;
-        wav_path = wavProcesess.saveWav(inputPath)
+        wav_path = await wavProcesess.saveWav(inputPath)
         logger.info(wav_path)
-        //sendToPython(wav_path)
-        // ✅ 7. Odpověď klientovi
+        await pythonHandover.sendToPython(wav_path)
+        res.status(200).jsonp({log:"zpracovano"})
 
 
     } catch (err) {
