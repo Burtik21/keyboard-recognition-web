@@ -6,7 +6,7 @@ document.getElementById('start').onclick = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
     console.log('🔌 Otevírám WebSocket připojení...');
-    socket = new WebSocket('ws://localhost:5500');
+    socket = new WebSocket('ws://localhost:5500/keyboard');
     socket.binaryType = 'arraybuffer';
 
     mediaRecorder = new MediaRecorder(stream);
