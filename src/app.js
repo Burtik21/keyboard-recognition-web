@@ -16,7 +16,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Statické soubory (CSS, JS, obrázky)
-app.get('/js/webrtcClient.js', (req, res) => {
+app.get('/keyboard/js/webrtcClient.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'js', 'webrtcClient.js'));
 });
 
