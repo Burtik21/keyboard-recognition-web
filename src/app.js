@@ -16,7 +16,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Statické soubory (CSS, JS, obrázky)
-app.use(express.static(path.join(__dirname, 'public')));
+app.get('/js/webrtcClient.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'js', 'webrtcClient.js'));
+});
 
 
 app.use(session({
