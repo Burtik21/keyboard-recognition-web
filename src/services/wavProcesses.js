@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const { exec } = require('child_process');
 const util = require('util');
+const multer = require('multer');
 
 // Převod exec na Promise-based funkci
 const execPromise = util.promisify(exec);
@@ -40,7 +41,18 @@ async function saveWav(inputPath) {
         // Cleanup dočasných souborů
         fs.unlinkSync(inputPath);  // Odstraníme původní soubor
         fs.unlinkSync(outputPath); // Odstraníme dočasný .wav soubor
+        const storage = multer.diskStorage({
+            destination: (req, file, cb) => {
+                // Určujeme složku pro nahrávání souborů
+                cb(null, uploadFolder);
+            },
+            filename: (req, file, cb) => {
+                // Nastavujeme název souboru
+                cb(null, Date.now() + '_' + file.originalname);
+            }
+        });
 
+        const upload = multer({ storage: storage });
         // Vrátíme cestu k uloženému souboru
         return savedWavPath;
 
