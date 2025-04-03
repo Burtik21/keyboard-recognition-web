@@ -20,7 +20,7 @@ exports.uploadAudio = async (req, res) => {
         const inputPath = req.file.path;
         wav_path = await wavProcesess.saveWav(inputPath)
         logger.info(wav_path)
-        //await pythonHandover.sendToPython(wav_path)
+        await pythonHandover.sendToPython(wav_path)
         res.status(200).jsonp({log:"zpracovano"})
 
 
