@@ -2,19 +2,18 @@ const path = require('path');
 const fs = require('fs');
 const { exec } = require('child_process');
 const util = require('util');
-const multer = require('multer');
 
 // Převod exec na Promise-based funkci
 const execPromise = util.promisify(exec);
 //absolutni cesta kde budou nahravky ukladany pro dalsi extrakci v pythonu
-const uploadFolder = '/home/ubuntu/uploads'
+//const uploadFolder = '/home/ubuntu/uploads'
 // Cesty pro složky
 //const uploadFolder = path.join(__dirname, '..', 'uploads');
 const convertedFolder = path.join(__dirname, '..', 'converted');
 const savedWavsFolder = path.join(__dirname, '..', 'saved_wavs');
 
 // Vytvoření složek, pokud neexistují
-fs.mkdirSync(uploadFolder, { recursive: true });
+//fs.mkdirSync(uploadFolder, { recursive: true });
 fs.mkdirSync(convertedFolder, { recursive: true });
 fs.mkdirSync(savedWavsFolder, { recursive: true });
 
@@ -37,22 +36,13 @@ async function saveWav(inputPath) {
         // Uložení konvertovaného souboru do složky saved_wavs
         const savedWavPath = path.join(savedWavsFolder, baseName + '_saved.wav');
         await fs.promises.copyFile(outputPath, savedWavPath); // Kopírování souboru do složky saved_wavs
+        const globalUploads = path.join(uploadFolder, baseName + '.wav.');
+        await fs.promises.copyFile(outputPath, globalUploads);
 
         // Cleanup dočasných souborů
         fs.unlinkSync(inputPath);  // Odstraníme původní soubor
         fs.unlinkSync(outputPath); // Odstraníme dočasný .wav soubor
-        const storage = multer.diskStorage({
-            destination: (req, file, cb) => {
-                // Určujeme složku pro nahrávání souborů
-                cb(null, uploadFolder);
-            },
-            filename: (req, file, cb) => {
-                // Nastavujeme název souboru
-                cb(null, Date.now() + '_' + file.originalname);
-            }
-        });
 
-        const upload = multer({ storage: storage });
         // Vrátíme cestu k uloženému souboru
         return savedWavPath;
 
@@ -62,4 +52,3 @@ async function saveWav(inputPath) {
     }
 }
 module.exports = { saveWav };
-
