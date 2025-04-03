@@ -35,32 +35,46 @@
       chunks.push(e.data);
     };
 
-    mediaRecorder.onstop = async () => {
+    mediaRecorder.onstop = () => {
       const blob = new Blob(chunks, { type: 'audio/webm' });
-      const formData = new FormData();
-      formData.append("audio_data", blob, `chunk_${chunkIndex}.webm`);
+      const currentChunk = chunkIndex++;
 
-      try {
-        const res = await fetch("/keyboard/audio/upload", {
-          method: "POST",
-          body: formData
-        });
-        const data = await res.json();
+      // Spusť odesílání asynchronně, ale nečekej na něj
+      sendChunkToServer(blob, currentChunk);
+      console.log("blob" + blob)
+      console.log("currentChunk" + currentChunk)
 
-        // Zobrazit výstup
-        const output = document.getElementById("output");
-        output.textContent += `Chunk ${chunkIndex}:\n` + JSON.stringify(data, null, 2) + '\n\n';
-      } catch (err) {
-        console.error("Chyba při nahrávání:", err);
-      }
 
-      chunkIndex++;
-      loopRecording(); // pokračuj
+      // ✅ mezitím už můžeš rozjet nový rekordér
+      loopRecording();
     };
 
     mediaRecorder.start();
-    setTimeout(() => mediaRecorder.stop(), 1000); // každou sekundu zastav
+    setTimeout(() => mediaRecorder.stop(), 1000);
   }
+
+  async function sendChunkToServer(blob, chunkNumber) {
+    const formData = new FormData();
+    formData.append("audio_data", blob, `chunk_${chunkNumber}.webm`);
+
+    console.log("Odesílám soubor:", `chunk_${chunkNumber}.webm`); // Přidej log pro kontrolu
+    console.log("FormData:", formData);
+
+    try {
+      const res = await fetch("/keyboard/upload", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+
+      document.getElementById("output").textContent +=
+              `Chunk ${chunkNumber}:\n` + JSON.stringify(data, null, 2) + '\n\n';
+    } catch (err) {
+      console.error("Chyba při uploadu chunku:", err);
+    }
+  }
+
+
 
   function stopRecording() {
     recording = false;
