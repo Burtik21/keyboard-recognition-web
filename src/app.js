@@ -29,8 +29,8 @@ app.use(session({
 
 
 // Hlavní stránkas
-app.use('/', audioRoutes);
-app.use('/audio', audioRoutes);
+app.use('/keyboard/', audioRoutes);
+app.use('/keyboard/audio', audioRoutes);
 //app.use("/auth", authRoutes)
 
 
