@@ -6,7 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const recordingsRoutes = require('./routes/recordingRoutes');
 const accRoutes = require('./routes/accRoutes');
 require('dotenv').config();
-//const sequelize = require('./config/db');
+const sequelize = require('./config/db');
 
 
 const app = express();
