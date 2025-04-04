@@ -581,4 +581,56 @@ header {
     font-size: 12px;
     margin-top: 5px;
 }
+/* Styling pro nahrávky (třídy začínající na .recordings) */
+
+/* Základní container pro seznam nahrávek */
+.recordings-container {
+    width: 80%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.recordings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.recordings-table th, .recordings-table td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+/* Změny pro hlavičku tabulky */
+.recordings-table th {
+    background-color: #3498db;
+    color: white;
+}
+
+.recording-item {
+    background-color: #ecf0f1;
+}
+
+/* Tlačítko pro přehrání nahrávky */
+.play-button {
+    background-color: #2980b9;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.play-button:hover {
+    background-color: #1f6f96;
+}
+
+.file-name, .click-count, .created-at {
+    font-weight: normal;
+}
+
+
 
