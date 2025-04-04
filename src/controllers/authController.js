@@ -23,7 +23,7 @@ exports.registerUser = async (req, res) => {
             password: hashedPassword
         });
 
-        res.redirect('/auth/login');
+        res.redirect('/keyboard/auth/login');
     } catch (error) {
         console.error('❌ Chyba při registraci:', error);
         res.render('register', { 
@@ -51,7 +51,7 @@ exports.loginUser = async (req, res) => {
 
         req.session.userId = user.id;
         
-        res.redirect('/catalog');
+        res.redirect('/keyboard');
     } catch (error) {
         console.error('❌ Chyba při přihlášení:', error);
         res.status(500).send('Chyba při přihlášení.');
@@ -64,6 +64,6 @@ exports.logoutUser = (req, res) => {
         if (err) {
             console.error('❌ Chyba při odhlášení:', err);
         }
-        res.redirect('/auth/login');
+        res.redirect('/keyboard/auth/login');
     });
 };
