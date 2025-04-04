@@ -1,38 +1,41 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
-// ✅ Registrace uživatele
+
+// Kontroler pro registraci uživatele
 exports.registerUser = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { username, password, email } = req.body;
 
     try {
-        const existingUser = await User.findOne({ where: { email } });
-        if (existingUser) {
-            return res.render('register', { 
-                error: 'Uživatel s tímto emailem již existuje.',
-                name, 
-                email 
-            });
+        // Validace, zda jsou všechna pole vyplněná
+        if (!username || !password || !email) {
+            return res.status(400).send('Všechna pole jsou povinná.');
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // Zkontroluj, zda uživatel s tímto jménem nebo emailem již existuje
+        const existingUser = await User.findOne({ where: { username } });
+        if (existingUser) {
+            return res.status(400).send('Uživatel s tímto uživatelským jménem již existuje.');
+        }
 
-        await User.create({
-            name,
-            email,
-            password: hashedPassword
+        // Hashování hesla
+        const hashedPassword = await bcrypt.hash(password, 10);  // Hashování hesla
+
+        // Vytvoření nového uživatele
+        const newUser = await User.create({
+            username: username,
+            password_hash: hashedPassword,  // Uložení hashovaného hesla
+            email: email
         });
 
-        res.redirect('/keyboard/auth/login');
+        // Vrácení úspěšné odpovědi
+        res.status(201).send('Uživatel byl úspěšně zaregistrován');
     } catch (error) {
-        console.error('❌ Chyba při registraci:', error);
-        res.render('register', { 
-            error: '❌ Chyba při registraci. Zkontrolujte zadané údaje.', 
-            name, 
-            email 
-        });
+        console.error('Chyba při registraci uživatele:', error);
+        res.status(500).send('Chyba serveru');
     }
 };
+
 
 // ✅ Přihlášení uživatele
 exports.loginUser = async (req, res) => {
