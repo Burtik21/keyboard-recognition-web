@@ -18,7 +18,7 @@
             </div>
         <% } %>
 
-        <form action="/auth/register" method="POST" class="auth-form">
+        <form action="/keyboard/auth/register" method="POST" class="auth-form">
             <input type="text" name="name" placeholder="Jméno" class="auth-input" value="<%= typeof name !== 'undefined' ? name : '' %>" required><br>
             <input type="email" name="email" placeholder="Email" class="auth-input" value="<%= typeof email !== 'undefined' ? email : '' %>" required><br>
             <input type="password" name="password" placeholder="Heslo" class="auth-input" required><br>
