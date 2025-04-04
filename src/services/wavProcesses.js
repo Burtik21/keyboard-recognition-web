@@ -34,7 +34,7 @@ async function saveWav(inputPath) {
         await execPromise(`ffmpeg -y -i "${inputPath}" -ar 44100 -ac 1 "${outputPath}"`);
 
         // Uložení konvertovaného souboru do složky saved_wavs
-        const savedWavPath = path.join(savedWavsFolder, baseName + '_other.wav');
+        const savedWavPath = path.join(savedWavsFolder, baseName + '_saved.wav');
         await fs.promises.copyFile(outputPath, savedWavPath); // Kopírování souboru do složky saved_wavs
         //const globalUploads = path.join(uploadFolder, baseName + '.wav.');
         //await fs.promises.copyFile(outputPath, globalUploads);
@@ -47,8 +47,8 @@ async function saveWav(inputPath) {
         return savedWavPath;
 
     } catch (err) {
-        console.error("Chyba při zpracování souboru:", err);
-        throw new Error("Chyba při zpracování souboru.");
+        console.error("Chyba při zpracování:", err);
+        throw new Error("Chyba při zpracování.");
     }
 }
 module.exports = { saveWav };
