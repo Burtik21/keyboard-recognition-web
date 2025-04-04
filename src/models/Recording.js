@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const User = require('./user');  // Pokud máš model pro uživatele, importuj ho
+const User = require('./Member');  // Pokud máš model pro uživatele, importuj ho
 
 const Recording = sequelize.define('Recording', {
     recording_id: {
