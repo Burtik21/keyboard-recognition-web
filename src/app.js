@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const audioRoutes = require('./routes/audioRoutes');
+const authRoutes = require('./routes/authRoutes');
 require('dotenv').config();
 //const sequelize = require('./config/db');
 
@@ -30,6 +31,7 @@ app.use(session({
 
 // Hlavní stránkas
 app.use('/keyboard/', audioRoutes);
+app.use("/keyboard/auth", authRoutes)
 //app.use('/keyboard/audio', audioRoutes);
 //app.use("/auth", authRoutes)
 

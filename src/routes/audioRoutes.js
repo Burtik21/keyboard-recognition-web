@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const { isAuthenticated } = require('../middleware/authMiddleware');
 const audioController = require('../controllers/audioController');
 const path = require('path');
 
@@ -17,10 +18,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Cesta: POST /keyboard/audio/upload
-router.post('/upload', upload.single('audio_data'), audioController.uploadAudio);
+router.post('/upload', isAuthenticated,upload.single('audio_data'), audioController.uploadAudio);
 // routes/audioRoutes.js
 
 
-router.get('/', audioController.getAudioPage); // /keyboard/audio/
+router.get('/', isAuthenticated,audioController.getAudioPage); // /keyboard/audio/
 
 module.exports = router;
