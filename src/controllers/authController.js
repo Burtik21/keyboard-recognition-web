@@ -1,12 +1,12 @@
 const bcrypt = require('bcryptjs');
-//const Member = require('../models/Member');
+const User = require('../models/User');
 
 // ✅ Registrace uživatele
 exports.registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        const existingUser = await Member.findOne({ where: { email } });
+        const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
             return res.render('register', { 
                 error: 'Uživatel s tímto emailem již existuje.',
@@ -17,7 +17,7 @@ exports.registerUser = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await Member.create({
+        await User.create({
             name,
             email,
             password: hashedPassword
@@ -39,7 +39,7 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = await Member.findOne({ where: { email } });
+        const user = await User.findOne({ where: { email } });
         if (!user) {
             return res.status(400).send('Nesprávný email nebo heslo.');
         }
