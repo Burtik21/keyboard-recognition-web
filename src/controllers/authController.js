@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
-
 // Kontroler pro registraci uživatele
 exports.registerUser = async (req, res) => {
     const { username, password, email } = req.body;
@@ -9,13 +8,21 @@ exports.registerUser = async (req, res) => {
     try {
         // Validace, zda jsou všechna pole vyplněná
         if (!username || !password || !email) {
-            return res.status(400).send('Všechna pole jsou povinná.');
+            return res.render('register', {  // Vrátí uživatele zpět na registrační stránku
+                error: 'Všechna pole jsou povinná.',
+                username,
+                email
+            });
         }
 
         // Zkontroluj, zda uživatel s tímto jménem nebo emailem již existuje
         const existingUser = await User.findOne({ where: { username } });
         if (existingUser) {
-            return res.status(400).send('Uživatel s tímto uživatelským jménem již existuje.');
+            return res.render('register', {
+                error: 'Uživatel s tímto uživatelským jménem již existuje.',
+                username,
+                email
+            });
         }
 
         // Hashování hesla
@@ -28,14 +35,13 @@ exports.registerUser = async (req, res) => {
             email: email
         });
 
-        // Vrácení úspěšné odpovědi
+        // Úspěšná registrace, přesměrování na přihlašovací stránku
         res.status(201).send('Uživatel byl úspěšně zaregistrován');
     } catch (error) {
         console.error('Chyba při registraci uživatele:', error);
         res.status(500).send('Chyba serveru');
     }
 };
-
 
 // ✅ Přihlášení uživatele
 exports.loginUser = async (req, res) => {
@@ -44,16 +50,21 @@ exports.loginUser = async (req, res) => {
     try {
         const user = await User.findOne({ where: { email } });
         if (!user) {
-            return res.status(400).send('Nesprávný email nebo heslo.');
+            return res.render('login', {  // Zobrazení chybové zprávy na přihlašovací stránce
+                error: 'Nesprávný email nebo heslo.',
+                email
+            });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password_hash); // Opravený přístup k hashovanému heslu
         if (!isMatch) {
-            return res.status(400).send('Nesprávný email nebo heslo.');
+            return res.render('login', {
+                error: 'Nesprávný email nebo heslo.',
+                email
+            });
         }
 
         req.session.userId = user.id;
-        
         res.redirect('/keyboard');
     } catch (error) {
         console.error('❌ Chyba při přihlášení:', error);
