@@ -17,7 +17,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Statické soubory (CSS, JS, obrázky)
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/css', express.static(path.join(__dirname, 'src/public/css')));
+app.use('/js', express.static(path.join(__dirname, 'src/public/js')));
 
 
 app.use(session({
