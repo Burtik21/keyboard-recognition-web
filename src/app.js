@@ -38,7 +38,7 @@ app.use('/keyboard/', audioRoutes);
 app.use("/keyboard/auth", authRoutes)
 app.use('/keyboard/recordings', recordingsRoutes);
 app.use("/keyboard/account", accRoutes)
-//app.use("/auth", authRoutes)
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
