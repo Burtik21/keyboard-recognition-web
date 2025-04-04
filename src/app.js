@@ -30,8 +30,8 @@ app.use(session({
 
 
 // Hlavní stránkas
-app.use('/keyboard/', audioRoutes);
-app.use("/keyboard/auth", authRoutes)
+app.use('/', audioRoutes);
+app.use("/auth", authRoutes)
 //app.use('/keyboard/audio', audioRoutes);
 //app.use("/auth", authRoutes)
 
