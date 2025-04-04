@@ -22,13 +22,13 @@ const User = sequelize.define('User', {
         unique: true, // Unikátní email
     },
     created_at: {
-        type: DataTypes.TIMESTAMP,
-        defaultValue: DataTypes.NOW,
+        type: DataTypes.DATE, // Změněno na správný datový typ
+        defaultValue: DataTypes.NOW, // Nastavení výchozí hodnoty na aktuální čas
     },
     updated_at: {
-        type: DataTypes.TIMESTAMP,
+        type: DataTypes.DATE, // Změněno na správný datový typ
         defaultValue: DataTypes.NOW,
-        onUpdate: DataTypes.NOW,
+        onUpdate: DataTypes.NOW, // Aktualizace časového razítka při změnách
     },
 }, {
     tableName: 'users', // Název tabulky v databázi
