@@ -9,12 +9,12 @@
 <%- include('partials/navbar') %>
 <div class="auth-wrapper">
     <h1>Přihlášení</h1>
-    <form action="/keyboard/auth/login" method="POST" class="auth-form">
+    <form action="auth/login" method="POST" class="auth-form">
         <input type="email" name="email" placeholder="Email" class="auth-input" required><br>
         <input type="password" name="password" placeholder="Heslo" class="auth-input" required><br>
         <button type="submit" class="auth-button" >Přihlásit se</button>
     </form>
-    <a href="/keyboard/auth/register" class="auth-link">Nemáte účet? Registrujte se.</a>
+    <a href="auth/register" class="auth-link">Nemáte účet? Registrujte se.</a>
 </div>
 </body>
 </html>

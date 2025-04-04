@@ -23,7 +23,7 @@ exports.registerUser = async (req, res) => {
             password: hashedPassword
         });
 
-        res.redirect('(/keyboard/auth/login');
+        res.redirect('(/auth/login');
     } catch (error) {
         console.error('❌ Chyba při registraci:', error);
         res.render('register', {
@@ -64,6 +64,6 @@ exports.logoutUser = (req, res) => {
         if (err) {
             console.error('❌ Chyba při odhlášení:', err);
         }
-        res.redirect('/keyboard/auth/login');
+        res.redirect('/auth/login');
     });
 };

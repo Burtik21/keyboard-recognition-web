@@ -36,10 +36,10 @@ sequelize.sync()
     .then(() => console.log('✅ Databáze je připojena a synchronizována'))
     .catch(err => console.error('❌ Chyba připojení k databázi:', err));
 // Hlavní stránkas
-app.use('/keyboard/', audioRoutes);
-app.use("/keyboard/auth", authRoutes)
-app.use('/keyboard/recordings', recordingsRoutes);
-app.use("/keyboard/account", accRoutes)
+app.use('/', audioRoutes);
+app.use("/auth", authRoutes)
+app.use('/recordings', recordingsRoutes);
+app.use("/account", accRoutes)
 
 
 const PORT = process.env.PORT;
