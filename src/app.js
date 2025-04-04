@@ -32,7 +32,9 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 }
 }));
 
-
+sequelize.sync()
+    .then(() => console.log('✅ Databáze je připojena a synchronizována'))
+    .catch(err => console.error('❌ Chyba připojení k databázi:', err));
 // Hlavní stránkas
 app.use('/keyboard/', audioRoutes);
 app.use("/keyboard/auth", authRoutes)
