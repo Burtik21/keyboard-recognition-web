@@ -14,7 +14,7 @@
   </button>
   <p class="description down">Aktuální nahrávání</p>
   <p id="onlyPc" class="not-recording">Přihlašte se přes mobilní zařízení a začněte nahrávat tam</p>
-  <p class="unseen">Typ zařízení: <%= deviceType %></p>
+  <p class="unseen">Typ zařízení: <%= deviceTypes %></p>
 </div>
 <script>
   let stream;
@@ -89,10 +89,10 @@
   const onlyPc = document.getElementById("onlyPc");
 
 
-  const deviceType = "<%= deviceType %>";
-  if(deviceType== "mobile"){
-    console.log(onlyPc.style.display)
-    onlyPc.style.display = "none";
+  const deviceTypes = "<%= deviceTypes %>";
+  if (deviceTypes.includes("mobile") && deviceTypes.includes("desktop")) {
+    console.log(onlyPc.style.display);
+    onlyPc.style.display = "none";  // Skryje element, pokud je přihlášeno na mobilu i desktopu
   }
 
   recordButton.addEventListener("click", async () => {
