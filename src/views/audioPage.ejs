@@ -14,7 +14,7 @@
   </button>
   <p class="description down">Aktuální nahrávání</p>
   <p id="onlyPc" class="not-recording">Přihlašte se přes mobilní zařízení a začněte nahrávat tam</p>
-  <p class="unseen">Typ zařízení: <%= deviceTypes %></p>
+  <p class="unseen">Typ zařízení: <%= deviceTypes.join(', ') %></p>
 </div>
 <script>
   let stream;
@@ -89,7 +89,7 @@
   const onlyPc = document.getElementById("onlyPc");
 
 
-  const deviceTypes = "<%= deviceTypes %>";
+  const deviceTypes = "<%= JSON.stringify(deviceTypes) %>";
   if (deviceTypes.includes("mobile") && deviceTypes.includes("desktop")) {
     console.log(onlyPc.style.display);
     onlyPc.style.display = "none";  // Skryje element, pokud je přihlášeno na mobilu i desktopu
