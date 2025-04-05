@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Katalog knih</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/script.js"></script>
+</head>
+
+<body>
+
+    <%- include('partials/navbar') %>
+    <div class="account-wrapper">
+        <div class="account-container">
+            <div class="account-info">
+                <p><strong>Jméno:</strong> <span id="nameDisplay"><%= user.name %></span></p>
+                <button class="btn-edit" onclick="editField('name')">Změnit</button>
+            </div>
+
+            <!-- Email -->
+            <div class="account-info">
+                <p><strong>Email:</strong> <span id="emailDisplay"><%= user.email %></span></p>
+                <button class="btn-edit" onclick="editField('email')">Změnit</button>
+            </div>
+
+            <!-- Aktivní účet -->
+            <div class="account-info">
+                <p><strong>Aktivní účet:</strong> <%= user.is_active ? 'Ano' : 'Ne' %></p>
+            </div>
+
+            <!-- Tlačítko Odhlásit se -->
+            <a href="/auth/logout" class="btn-logout">Odhlásit se</a>
+        </div>
+    </div>
+</body>
+
+</html>
