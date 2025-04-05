@@ -1,10 +1,10 @@
 const Member = require('../models/Member');
 
-
+// Načtení všech knih z databáze
 exports.member = async (req, res) => {
     try {
         const user = await Member.findByPk(req.session.userId);
-        res.render('accPage', { user });    // Předá je do EJS šablony
+        res.render('account', { user });    // Předá je do EJS šablony
     } catch (error) {
         console.error('❌ Chyba při načítání usera:', error);  // Přidáno logování chyby
         res.status(500).send('Chyba při načítání usera');

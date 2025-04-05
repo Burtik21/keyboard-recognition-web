@@ -3,17 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Audio Analýza</title>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <%- include('partials/navbar') %>
-<h1>Nahrávání zvuku a analýza</h1>
-
-<button id="startBtn">Start</button>
-<button id="stopBtn" disabled>Stop</button>
-
-<h3>Výstup:</h3>
-<pre id="output"></pre>
-
+<div class="audio-container">
+  <p class="description">Nahrávat je doporučeno na mobilním zařízení a zde jen sledovat</p>
+  <button id="recordButton" class="record-button">
+    <span id="buttonText" class="button-text">START</span>
+  </button>
+  <p class="description down">Aktuální nahrávání</p>
+  <p id="onlyPc" class="not-recording">Přihlašte se přes mobilní zařízení a začněte nahrávat tam</p>
+  <p class="unseen">Typ zařízení: <%= deviceType %></p>
+</div>
 <script>
   let stream;
   let recording = false;
@@ -62,7 +64,7 @@
     console.log("FormData:", formData);
 
     try {
-      const res = await fetch("/keyboard/upload", {
+      const res = await fetch("/record/upload", {
         method: "POST",
         body: formData
       });
@@ -82,17 +84,32 @@
     if (stream) stream.getTracks().forEach(track => track.stop());
   }
 
-  document.getElementById("startBtn").onclick = () => {
-    startRecording();
-    document.getElementById("startBtn").disabled = true;
-    document.getElementById("stopBtn").disabled = false;
-  };
+  const recordButton = document.getElementById("recordButton");
+  const buttonText = document.getElementById("buttonText");
+  const onlyPc = document.getElementById("onlyPc")
 
-  document.getElementById("stopBtn").onclick = () => {
-    stopRecording();
-    document.getElementById("startBtn").disabled = false;
-    document.getElementById("stopBtn").disabled = true;
-  };
+
+  const deviceType = "<%= deviceType %>";
+  if(deviceType=== "mobile"){
+    onlyPc.classList.toggle("unseen")
+  }
+
+  recordButton.addEventListener("click", async () => {
+
+    if(recording) {
+      recordButton.classList.remove('active');
+      stopRecording()
+      recording = false
+      buttonText.textContent = "START"
+    }
+    else {
+      recordButton.classList.toggle('active');
+      startRecording()
+      recording = true
+      buttonText.textContent = "STOP"
+    }
+  });
+
 </script>
 </body>
 </html>

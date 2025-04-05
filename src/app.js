@@ -19,7 +19,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Statické soubory (CSS, JS, obrázky)
-app.use('/css', express.static(path.join(__dirname, 'public/css')));
+app.use(express.static(path.join(__dirname, 'public')));
 sequelize.sync()
     .then(() => console.log('✅ Databáze je připojena a synchronizována'))
     .catch(err => console.error('❌ Chyba připojení k databázi:', err));
@@ -36,7 +36,7 @@ sequelize.sync()
     .then(() => console.log('✅ Databáze je připojena a synchronizována'))
     .catch(err => console.error('❌ Chyba připojení k databázi:', err));
 // Hlavní stránkas
-app.use('/', audioRoutes);
+app.use('/record', audioRoutes);
 app.use("/auth", authRoutes)
 app.use('/recordings', recordingsRoutes);
 app.use("/account", accRoutes)

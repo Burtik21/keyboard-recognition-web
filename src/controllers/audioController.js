@@ -10,7 +10,12 @@ const logger = require("../utils/logger")
 
 // controllers/audioController.js
 exports.getAudioPage = (req, res) => {
-    res.render('audioPage');
+    const { multipleDevices, deviceType } = res.locals;  // Předpokládám, že multipleDevices a deviceType jsou v res.locals z middleware
+
+    // Renderování šablony s předáním dat (message a deviceType)
+    res.render('audioPage', {
+        deviceType: deviceType
+    });
 };
 
 exports.uploadAudio = async (req, res) => {
