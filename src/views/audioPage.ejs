@@ -86,12 +86,13 @@
 
   const recordButton = document.getElementById("recordButton");
   const buttonText = document.getElementById("buttonText");
-  const onlyPc = document.getElementById("onlyPc")
+  const onlyPc = document.getElementById("onlyPc");
 
 
   const deviceType = "<%= deviceType %>";
-  if(deviceType=== "mobile"){
-    onlyPc.classList.toggle("unseen")
+  if(deviceType== "mobile"){
+    console.log(onlyPc.style.display)
+    onlyPc.style.display = "none";
   }
 
   recordButton.addEventListener("click", async () => {

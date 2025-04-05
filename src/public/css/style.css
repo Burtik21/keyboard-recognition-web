@@ -690,3 +690,7 @@ header {
     display: none;
 }
 
+#onlyPc {
+    display: block;
+}
+
