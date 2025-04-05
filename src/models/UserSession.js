@@ -31,7 +31,7 @@ const sequelize = require('../config/db');
         },
 
     }, {
-        tableName: 'UserSessions',
+        tableName: 'usersessions',
         timestamps: false, // Nechceme, aby Sequelize automaticky přidával `createdAt` a `updatedAt`, protože už máme `createdAt` jako sloupec
 
 
