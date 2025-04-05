@@ -14,21 +14,44 @@
   </button>
   <p class="description down">Aktuální nahrávání</p>
   <p id="onlyPc" class="not-recording">Přihlašte se přes mobilní zařízení a začněte nahrávat tam</p>
-  <p class="unseen">Typ zařízení: <%= deviceTypes.join(', ') %></p>
+  <p class="unseen">Typ zařízení:</p>
 </div>
 <script>
   let stream;
   let recording = false;
   let chunkIndex = 0;
+  let secs = 0;
+  let recordingId;  // Globální proměnná pro uložení ID nahrávky
+
+  const multipleDevices = "<%= multipleDevices %>";
+  console.log("devices jsou:")
+  console.log(multipleDevices)
+
 
   async function startRecording() {
+
+    // Zavoláme endpoint pro vytvoření nové nahrávky
+    const response = await fetch('/recordings/create', { method: 'POST' });
+    const data = await response.json();
+
+    if (data.recordingId) {
+      recordingId = data.recordingId;  // Uložíme ID nahrávky pro pozdější použití
+      console.log('Nahrávka vytvořena s ID:', recordingId);
+    } else {
+      console.error('Chyba při vytváření nahrávky');
+      return;
+    }
+
+    // Nastavení pro nahrávání
     stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     recording = true;
     chunkIndex = 0;
-    loopRecording();
+
+
+    loopRecording(recordingId);
   }
 
-  function loopRecording() {
+  function loopRecording(recordingId) {
     if (!recording) return;
 
     const mediaRecorder = new MediaRecorder(stream);
@@ -43,25 +66,24 @@
       const currentChunk = chunkIndex++;
 
       // Spusť odesílání asynchronně, ale nečekej na něj
-      sendChunkToServer(blob, currentChunk);
-      console.log("blob" + blob)
-      console.log("currentChunk" + currentChunk)
-
+      sendChunkToServer(blob, currentChunk, recordingId);
+      console.log("blob", blob);
+      console.log("currentChunk", currentChunk);
 
       // ✅ mezitím už můžeš rozjet nový rekordér
-      loopRecording();
+      loopRecording(recordingId);
     };
 
     mediaRecorder.start();
-    setTimeout(() => mediaRecorder.stop(), 1000);
+    setTimeout(() => mediaRecorder.stop(), 1000); // Nahrávání na 1 sekundu
   }
 
-  async function sendChunkToServer(blob, chunkNumber) {
+  async function sendChunkToServer(blob, chunkNumber, recordingId) {
     const formData = new FormData();
     formData.append("audio_data", blob, `chunk_${chunkNumber}.webm`);
-
+    formData.append("recordingId", recordingId);  // Posíláme ID nahrávky
+    console.log('recordingId:', recordingId);  // Ověřujeme, že recordingId není undefined
     console.log("Odesílám soubor:", `chunk_${chunkNumber}.webm`); // Přidej log pro kontrolu
-    console.log("FormData:", formData);
 
     try {
       const res = await fetch("/record/upload", {
@@ -69,18 +91,16 @@
         body: formData
       });
       const data = await res.json();
+      console.log(data); // Zpracuj odpověď
 
-      document.getElementById("output").textContent +=
-              `Chunk ${chunkNumber}:\n` + JSON.stringify(data, null, 2) + '\n\n';
     } catch (err) {
       console.error("Chyba při uploadu chunku:", err);
     }
   }
 
-
-
   function stopRecording() {
     recording = false;
+    recordingId = null;
     if (stream) stream.getTracks().forEach(track => track.stop());
   }
 
@@ -88,26 +108,17 @@
   const buttonText = document.getElementById("buttonText");
   const onlyPc = document.getElementById("onlyPc");
 
-
-  const deviceTypes = "<%= JSON.stringify(deviceTypes) %>";
-  if (deviceTypes.includes("mobile") && deviceTypes.includes("desktop")) {
-    console.log(onlyPc.style.display);
-    onlyPc.style.display = "none";  // Skryje element, pokud je přihlášeno na mobilu i desktopu
-  }
-
   recordButton.addEventListener("click", async () => {
-
-    if(recording) {
+    if (recording) {
       recordButton.classList.remove('active');
-      stopRecording()
-      recording = false
-      buttonText.textContent = "START"
-    }
-    else {
+      stopRecording();
+      recording = false;
+      buttonText.textContent = "START";
+    } else {
       recordButton.classList.toggle('active');
-      startRecording()
-      recording = true
-      buttonText.textContent = "STOP"
+      startRecording();
+      recording = true;
+      buttonText.textContent = "STOP";
     }
   });
 

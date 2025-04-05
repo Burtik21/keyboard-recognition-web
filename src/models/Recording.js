@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const User = require('./Member');  // Pokud máš model pro uživatele, importuj ho
+const Member = require('./Member');  // Pokud máš model pro uživatele, importuj ho
 
 const Recording = sequelize.define('Recording', {
     recording_id: {
@@ -8,18 +8,14 @@ const Recording = sequelize.define('Recording', {
         primaryKey: true,
         autoIncrement: true
     },
-    user_id: {
+    member_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: User,  // Předpokládáme, že máš model User pro cizí klíč
+            model: Member,  // Předpokládáme, že máš model User pro cizí klíč
             key: 'user_id'
         },
         onDelete: 'CASCADE'  // Když je uživatel smazán, smaž i jeho nahrávky
-    },
-    recording_file_path: {
-        type: DataTypes.STRING,
-        allowNull: false,
     },
     click_count: {
         type: DataTypes.INTEGER,
@@ -27,14 +23,18 @@ const Recording = sequelize.define('Recording', {
         defaultValue: 0
     },
     created_at: {
-        type: DataTypes.TIMESTAMP,
+        type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
+    },
+    duration: {
+        type: DataTypes.INTEGER,  // Ukládáme v sekundách (můžeš použít INTEGER pro sekundy nebo minutách)
+        allowNull: true,
     }
 }, {
     tableName: 'recordings',
     timestamps: false  // Nepotřebujeme createdAt/updatedAt sloupce
 });
 
-Recording.belongsTo(User, { foreignKey: 'user_id' });  // Vztah mezi Recording a User
+Recording.belongsTo(Member, { foreignKey: 'member_id' });  // Vztah mezi Recording a User
 
 module.exports = Recording;

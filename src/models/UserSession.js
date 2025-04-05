@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
+
     const UserSession = sequelize.define('UserSession', {
         id: {
             type: DataTypes.INTEGER,
@@ -16,18 +17,19 @@ const sequelize = require('../config/db');
             },
             onDelete: 'CASCADE', // Pokud bude člen smazán, odstraní se i jeho session
         },
-        deviceId: {
+        deviceType: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        token: {
-            type: DataTypes.STRING,
-            allowNull: false,
+        active: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true,
         },
         createdAt: {
             type: DataTypes.DATE,
             defaultValue: sequelize.fn('NOW'),
         },
+
     }, {
         tableName: 'UserSessions',
         timestamps: false, // Nechceme, aby Sequelize automaticky přidával `createdAt` a `updatedAt`, protože už máme `createdAt` jako sloupec

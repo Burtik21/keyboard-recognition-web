@@ -2,39 +2,53 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seznam Nahrávek</title>
+    <title>Moje Nahrávky</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+<%- include('partials/navbar') %>  <!-- Navigační panel -->
 
-<%- include('partials/navbar') %>
 <div class="recordings-container">
-    <table class="recordings-table">
-        <thead>
-        <tr>
-            <th>Soubor</th>
-            <th>Počet kliknutí</th>
-            <th>Vytvořeno</th>
-            <th>Akce</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% recordings.forEach(recording => { %>
-            <tr class="recording-item">
-                <td class="file-name"><%= recording.recording_file_path %></td>
-                <td class="click-count"><%= recording.click_count %></td>
-                <td class="created-at"><%= recording.created_at %></td>
-                <td><button class="play-button" onclick="playRecording('<%= recording.recording_file_path %>')">Poslechnout</button></td>
+    <% if (recordings && recordings.length > 0) { %>
+        <table>
+            <thead>
+            <tr>
+
+
+                <th>Datum Vytvoření</th>
+                <th>Počet Kliků</th>
+                <th>Doba nahrávky</th>
+                <th>Efektivnost</th>
+
             </tr>
-        <% }); %>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <% recordings.forEach((recording) => { %>
+                <tr>
+
+                    <td><%= new Date(recording.created_at).toLocaleString() %></td>  <!-- Formátování data -->
+                    <td><%= recording.click_count || '0' %></td>
+
+
+                    <%# ChatGPT %>
+                    <td>
+                        <%= (recording.duration >= 60)
+                                ? (recording.duration / 60).toFixed(1) + " min"
+                                : recording.duration + " s"
+                        %>
+                    </td>
+                    <%# ChatGPT %>
+
+
+                    <td><%=  (recording.click_count/60).toFixed(3) + " /min" || '0' %></td>
+
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>Nemáte žádné nahrávky.</p>
+    <% } %>
 </div>
-
-<script>
-
-</script>
-
 </body>
 </html>

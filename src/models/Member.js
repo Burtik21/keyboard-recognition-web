@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
+
 const Member = sequelize.define('Member', {
     name: {
         type: DataTypes.STRING,
@@ -20,8 +21,11 @@ const Member = sequelize.define('Member', {
     },
     is_active: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true
+        defaultValue: false
     }
+
+
+
 }, {
     tableName: 'members',
     timestamps: false

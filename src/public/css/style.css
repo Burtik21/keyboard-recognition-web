@@ -584,34 +584,8 @@ header {
 /* Styling pro nahrávky (třídy začínající na .recordings) */
 
 /* Základní container pro seznam nahrávek */
-.recordings-container {
-    width: 80%;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-}
 
-.recordings-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
 
-.recordings-table th, .recordings-table td {
-    padding: 15px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-/* Změny pro hlavičku tabulky */
-.recordings-table th {
-    background-color: #3498db;
-    color: white;
-}
-
-.recording-item {
-    background-color: #ecf0f1;
-}
 
 /* Tlačítko pro přehrání nahrávky */
 .play-button {
@@ -693,4 +667,64 @@ header {
 #onlyPc {
     display: block;
 }
+/* Nastavení základního stylu pro tabulku */
+table {
+    width: 80%;  /* Šířka tabulky na 80% šířky rodičovského elementu */
+    margin: 20px auto;  /* Automatické zarovnání tabulky na střed */
+    border-collapse: collapse;  /* Sloučí okraje buněk do jednoho */
+    border-radius: 10px;  /* Zaoblené rohy */
+    background-color: #f4f4f9;  /* Světle šedé pozadí pro tabulku */
+}
+
+/* Styl pro hlavičku tabulky */
+th {
+    padding: 12px;  /* Vnitřní okraje */
+    text-align: center;  /* Zarovnání textu na střed */
+    background-color: #4CAF50;  /* Zelené pozadí pro hlavičku */
+    color: white;  /* Bílé písmo */
+    font-weight: bold;  /* Tučné písmo */
+}
+
+/* Styl pro buňky tabulky */
+td {
+    padding: 10px;  /* Vnitřní okraje pro buňky */
+    text-align: center;  /* Text bude zarovnán na střed */
+    border: 1px solid #ddd;  /* Světle šedé okraje pro buňky */
+    border-radius: 5px;  /* Zaoblené rohy pro buňky */
+}
+
+/* Při najetí myší na řádek tabulky */
+tr:hover {
+    background-color: #f1f1f1;  /* Světle šedé pozadí při hover */
+}
+
+/* Styl pro okraje tabulky */
+table, th, td {
+    border: 1px solid #ddd;  /* Světle šedé okraje pro tabulku, hlavičky a buňky */
+}
+
+/* Pro mezery mezi řádky */
+tbody tr {
+    margin-bottom: 5px;  /* Mezery mezi řádky */
+}
+
+/* Pokud je tabulka prázdná, text bude ve středu */
+.recordings-container p {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+    align-items: center;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+.recordings-container {
+    justify-content: center;  /* Zarovnání na střed vodorovně */
+    align-items: center;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+
 
