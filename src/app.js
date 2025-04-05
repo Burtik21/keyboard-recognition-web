@@ -39,7 +39,7 @@ app.use(session({
 }));
 
 // Hlavní stránkas
-
+app.use(timeoutMiddleware);
 app.use('/record', audioRoutes);
 app.use("/auth", authRoutes)
 app.use('/recordings', recordingsRoutes);
