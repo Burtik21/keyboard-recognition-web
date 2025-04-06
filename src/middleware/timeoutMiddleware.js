@@ -1,4 +1,5 @@
 const SESSION_TIMEOUT = 30 * 60 * 1000;  // 30 minut v milisekundách
+const logger = require('../utils/logger');
 
 // Middleware pro kontrolu neaktivity
 const checkSessionTimeout = async (req, res, next) => {

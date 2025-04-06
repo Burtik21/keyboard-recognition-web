@@ -1,9 +1,9 @@
 const bcrypt = require('bcryptjs');
 const Member = require('../models/Member');
 const UserSession = require('../models/UserSession'); // Import modelu UserSession
+const logger = require('../utils/logger');
 
 
-// ✅ Registrace uživatele
 exports.registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -27,7 +27,7 @@ exports.registerUser = async (req, res) => {
 
         res.redirect('/auth/login');
     } catch (error) {
-        console.error('❌ Chyba při registraci:', error);
+        logger.error('❌ Chyba při registraci:', error);
         res.render('register', {
             error: '❌ Chyba při registraci. Zkontrolujte zadané údaje.',
             name,
@@ -36,9 +36,6 @@ exports.registerUser = async (req, res) => {
     }
 };
 
-// ✅ Přihlášení uživatele
-// ✅ Přihlášení uživatele
-// ✅ Přihlášení uživatele
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     const { deviceType } = res.locals;
@@ -69,7 +66,7 @@ exports.loginUser = async (req, res) => {
         res.redirect('/record');  // Po přihlášení přesměrujeme na stránku pro nahrávání
 
     } catch (error) {
-        console.error('❌ Chyba při přihlášení:', error);
+        logger.error('❌ Chyba při přihlášení:', error);
         res.status(500).send('Chyba při přihlášení.');
     }
 };
@@ -92,7 +89,7 @@ exports.logoutUser = async (req, res) => {
             res.redirect('/auth/login');  // Přesměrování na login stránku po odhlášení
         });
     } catch (error) {
-        console.error('❌ Chyba při deaktivaci session:', error);
+        logger.error('❌ Chyba při deaktivaci session:', error);
         res.status(500).send('Chyba při odhlášení.');
     }
 };

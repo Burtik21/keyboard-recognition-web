@@ -1,4 +1,5 @@
 const UserSession = require('../models/UserSession');  // Model pro session
+const logger = require('../utils/logger');
 
 // Metoda pro aktualizaci session (zahájení nebo zastavení nahrávání)
 // Metoda pro aktualizaci session (zahájení nebo zastavení nahrávání)
@@ -75,7 +76,7 @@ exports.updateSession = async (req, res) => {
             });
         }
     } catch (error) {
-        console.error('❌ Chyba při aktualizaci session:', error);
+        logger.error('❌ Chyba při aktualizaci session:', error);
         return res.status(500).json({ error: 'Chyba při aktualizaci session.' });
     }
 };
@@ -104,7 +105,7 @@ exports.getRecordingId = async (req, res) => {
             return res.status(404).json({ error: 'Žádná session neprobíhá.' });
         }
     } catch (error) {
-        console.error('❌ Chyba při získávání recordingId:', error);
+        logger.error('❌ Chyba při získávání recordingId:', error);
         return res.status(500).json({ error: 'Chyba při získávání recordingId.' });
     }
 };

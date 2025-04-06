@@ -1,7 +1,8 @@
 const Meyda = require('meyda');
+const logger = require("../utils/logger");
 
 async function processSegment(segment) {
-    console.log("Procesování segmentu...");
+    logger.log("Procesování segmentu...");
 
     // 1. Spojit všechny buffery z frame segmentu
     const int16 = [];
@@ -65,7 +66,7 @@ async function processSegment(segment) {
     result.max_intensity = Math.max(...float32.map(Math.abs)); // maximální intenzita
     result.dominant_freq = getDominantFreq(float32, sampleRate); // dominantní frekvence
 
-    console.log("🎧 Analyzovaný segment:", result);
+    logger.log("🎧 Analyzovaný segment:", result);
     return result;
 }
 

@@ -1,12 +1,12 @@
 const Member = require('../models/Member');
-
+const logger = require('../utils/logger');
 // Načtení všech knih z databáze
 exports.member = async (req, res) => {
     try {
         const user = await Member.findByPk(req.session.userId);
         res.render('account', { user });    // Předá je do EJS šablony
     } catch (error) {
-        console.error('❌ Chyba při načítání usera:', error);  // Přidáno logování chyby
+        logger.error('Chyba při načítání usera:', error);  // Přidáno logování chyby
         res.status(500).send('Chyba při načítání usera');
     }
 };
@@ -33,7 +33,7 @@ exports.editAccField = async (req, res) => {
         res.status(200).send('Údaje byly úspěšně aktualizovány.');
     }
     catch (error) {
-        console.error('❌ Chyba při aktualizaci údajů:', error);
+        logger.error('❌ Chyba při aktualizaci údajů:', error);
         res.status(500).send('Chyba při aktualizaci údajů.');
 
     }

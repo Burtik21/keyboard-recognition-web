@@ -1,6 +1,6 @@
 const Recording = require('../models/Recording');
 const { Op } = require('sequelize');
-
+const logger = require('../utils/logger');
 // Funkce pro ukládání nahrávky
 // Backend: Vytvoření záznamu nahrávky
 exports.createRecording = async (req, res) => {
@@ -16,7 +16,7 @@ exports.createRecording = async (req, res) => {
 
         res.json({ message: 'Recording created successfully', recordingId: newRecording.recording_id });
     } catch (error) {
-        console.error('Chyba při vytváření nahrávky:', error);
+        logger.error('Chyba při vytváření nahrávky:', error);
         res.status(500).json({ error: 'Chyba při vytváření nahrávky' });
     }
 };
@@ -40,7 +40,7 @@ exports.getUserRecordings = async (req, res) => {
         res.render('recordingsPage', { recordings });  // Předáme data do EJS šablony
 
     } catch (error) {
-        console.error('❌ Chyba při získávání nahrávek:', error);
+        logger.error('❌ Chyba při získávání nahrávek:', error);
         res.status(500).json({
             error: 'Došlo k chybě při získávání nahrávek.'
         });
@@ -67,7 +67,7 @@ exports.updateClickCount = async (recordingId, clickCount) => {
 
         return recording; // Vrátí aktualizovanou nahrávku
     } catch (error) {
-        console.error('Chyba při aktualizaci počtu kliků:', error);
+        logger.error('Chyba při aktualizaci počtu kliků:', error);
         throw error; // Propagujeme chybu dál
     }
 };
@@ -91,7 +91,7 @@ exports.updateDuration = async (recordingId, duration) => {
 
         return recording; // Vrátí aktualizovanou nahrávku
     } catch (error) {
-        console.error('Chyba při aktualizaci počtu kliků:', error);
+        logger.error('Chyba při aktualizaci počtu kliků:', error);
         throw error; // Propagujeme chybu dál
     }
 };

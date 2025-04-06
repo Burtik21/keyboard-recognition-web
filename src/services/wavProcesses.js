@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const { exec } = require('child_process');
 const util = require('util');
+const logger = require('../utils/logger');
 
 // Převod exec na Promise-based funkci
 const execPromise = util.promisify(exec);
@@ -34,7 +35,7 @@ async function saveWav(inputPath) {
         await execPromise(`ffmpeg -y -i "${inputPath}" -ar 44100 -ac 1 "${outputPath}"`);
 
         // Uložení konvertovaného souboru do složky saved_wavs
-        const savedWavPath = path.join(savedWavsFolder, baseName + '_saved.wav');
+        const savedWavPath = path.join(savedWavsFolder, baseName + '_keyboard.wav');
         await fs.promises.copyFile(outputPath, savedWavPath); // Kopírování souboru do složky saved_wavs
         //const globalUploads = path.join(uploadFolder, baseName + '.wav.');
         //await fs.promises.copyFile(outputPath, globalUploads);
@@ -47,7 +48,7 @@ async function saveWav(inputPath) {
         return savedWavPath;
 
     } catch (err) {
-        console.error("Chyba při zpracování:", err);
+
         throw new Error("Chyba při zpracování.");
     }
 }

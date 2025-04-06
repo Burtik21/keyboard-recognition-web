@@ -1,6 +1,6 @@
 const MobileDetect = require('mobile-detect');
 const UserSession = require('../models/UserSession');  // Model pro session
-
+const logger = require('../utils/logger');
 // Middleware pro kontrolu přihlášení na více zařízeních a detekci mobilu vs PC
 const checkMultipleDevicesAndDeviceType = async (req, res, next) => {
     const userId = req.session.userId;  // Uživatelské ID získáme z session

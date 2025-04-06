@@ -44,7 +44,7 @@ exports.getAudioPage = async (req, res) => {
             hasMobileSession: res.locals.hasMobileSession  // Informace, zda má uživatel aktivní session na mobilu
         });
     } catch (error) {
-        console.error('❌ Chyba při kontrole zařízení:', error);
+        logger.error('❌ Chyba při kontrole zařízení:', error);
         return res.status(500).send('Chyba při zpracování požadavku.');
     }
 };
@@ -56,16 +56,16 @@ exports.uploadAudio = async (req, res) => {
 
         const inputPath = req.file.path;
         const recordingId = req.body.recordingId;
-        recordingsController.updateDuration(recordingId,1)
+        await recordingsController.updateDuration(recordingId, 1)
 
         console.log("recording id JE:")
-        //console.log(recordingId)
+        console.log(recordingId)
 
         wav_path = await wavProcesess.saveWav(inputPath)
-        //logger.info(wav_path)
+        logger.info(wav_path)
 
         response = await pythonHandover.sendToPython(wav_path, recordingId)
-        console.log("python odpoved:", response);
+
 
 
 

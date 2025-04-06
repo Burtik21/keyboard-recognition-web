@@ -7,10 +7,11 @@ const recordingsRoutes = require('./routes/recordingRoutes');
 const sessionRoutes = require('./routes/sessionRoutes');
 const timeoutMiddleware = require('./middleware/timeoutMiddleware');
 const accRoutes = require('./routes/accRoutes');
+const logger = require('./utils/logger');
 require('dotenv').config();
 const sequelize = require('./config/db');
 
-console.log(path.join(__dirname, 'public'))
+
 
 const app = express();
 app.use(express.json());
@@ -26,8 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 sequelize.sync()
-    .then(() => console.log('✅ Databáze je připojena a synchronizována'))
-    .catch(err => console.error('❌ Chyba připojení k databázi:', err));
+    .then(() => logger.info('Databáze je připojena a synchronizována'))
+    .catch(err => logger.info('chyba připojení k databázi:', err));
 
 app.use(session({
     secret: 'secret',  // Změňte na bezpečnější secret v produkci
@@ -52,7 +53,7 @@ app.use("/session", sessionRoutes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
-    console.log(`🚀 Server běží na portu ${PORT}/keyboard`);
+    logger.info(`🚀 Server běží na portu ${PORT}/keyboard`);
 });
 
 
