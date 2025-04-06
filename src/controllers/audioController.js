@@ -8,7 +8,7 @@ const  pythonHandover = require("../services/pythonHandover")
 const  recordingsController = require("../controllers/recordingsController")
 const logger = require("../utils/logger")
 
-
+let deviceType = null
 // controllers/audioController.js
 exports.getAudioPage = async (req, res) => {
     const userId = req.session.userId;  // Uživatelské ID získáme z session
@@ -25,20 +25,21 @@ exports.getAudioPage = async (req, res) => {
         const activeSessions = await UserSession.findAll({
             where: { memberId: userId, active: true }  // Hledáme pouze aktivní session
         });
-
+        console.log(activeSessions)
         // Zkontrolujeme, jestli existuje nějaká session s deviceType = 'mobile'
         const hasMobileSession = activeSessions.some(session => session.deviceType === 'mobile');
 
         // Uložíme informace o deviceType a mobile session do res.locals pro použití v controlleru
         res.locals.hasMobileSession = hasMobileSession;
-        res.locals.deviceType = req.session.deviceType;  // Pokud máš deviceType v session, tak sem
+        deviceType = res.locals.deviceType
+        // Pokud máš deviceType v session, tak sem
 
         // Zde můžeš také zjistit, zda má uživatel přihlášený více než jedno zařízení
         const multipleDevices = activeSessions.length > 1;  // Pokud je více než jedna aktivní session
 
         // Renderování šablony s těmito daty
         res.render('audioPage', {
-            deviceTypes: res.locals.deviceType,
+            deviceType: deviceType,
             multipleDevices: multipleDevices,  // Seznam všech zařízení, na kterých je uživatel přihlášen
             hasMobileSession: res.locals.hasMobileSession  // Informace, zda má uživatel aktivní session na mobilu
         });

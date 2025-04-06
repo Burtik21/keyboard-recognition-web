@@ -24,8 +24,17 @@
   let recordingId;  // Globální proměnná pro uložení ID nahrávky
 
   const multipleDevices = "<%= multipleDevices %>";
-  console.log("devices jsou:")
+  const deviceType = "<%= deviceType %>";
+  const hasMobileSession = "<%= hasMobileSession %>";
+
+
+
+  console.log("predavam ejs sablone: ")
   console.log(multipleDevices)
+  console.log(deviceType)
+  console.log(hasMobileSession)
+
+
 
 
   async function startRecording() {
