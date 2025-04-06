@@ -143,6 +143,9 @@ Nejvíce jsem se orientoval podle spektrogramu
 - **Základní konfigurace pro Nginx**
    - Nginx bude sloužit jako proxy server pro směrování požadavků na backendovou aplikaci běžící na **Node.js** (např. na portu **5500**). Pro zajištění **HTTPS** je potřeba nastavit SSL certifikáty.
 
+## Spuštění
+- Aplikace je nasazena na https://sajmiho.lol/auth/register
+
 ## Použitý kód z předchozího projektu
 
 Tento projekt využívá některé části kódu z předchozího projektu:
@@ -152,6 +155,8 @@ Tento projekt využívá některé části kódu z předchozího projektu:
    - Celé přihlášení - https://github.com/Burtik21/library-orm/blob/master/controllers/authController.js
    - Spravování účtů - https://github.com/Burtik21/library-orm/blob/master/controllers/accController.js
    - Struktura projektu a připojení k databázi
+ ## Data
+ - https://github.com/Burtik21/keyboard-data
   
 
  
