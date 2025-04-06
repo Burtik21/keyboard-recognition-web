@@ -57,12 +57,35 @@ exports.uploadAudio = async (req, res) => {
         const inputPath = req.file.path;
         const recordingId = req.body.recordingId;
         recordingsController.updateDuration(recordingId,1)
+
         console.log("recording id JE:")
         console.log(recordingId)
+
         wav_path = await wavProcesess.saveWav(inputPath)
         logger.info(wav_path)
-        await pythonHandover.sendToPython(wav_path, recordingId)
-        res.status(200).jsonp({log:"zpracovano"})
+
+        response = await pythonHandover.sendToPython(wav_path, recordingId)
+        console.log("python odpoved:", response);
+
+
+        if (response && response.clicks !== undefined) {
+            // Volání metody pro aktualizaci session (po obdržení odpovědi z Pythonu)
+            const updateResponse = await fetch('/session/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: req.session.userId,  // Uživatelské ID z session
+                    clicks: response.clicks       // Počet kliků z Pythonu
+                })
+            });
+
+            const updateData = await updateResponse.json();
+            console.log("Aktualizace session:", updateData);
+        }
+
+        res.status(200).jsonp({ log: "zpracováno", pythonResponse: response });
 
 
     } catch (err) {

@@ -4,6 +4,7 @@ const path = require('path');
 const audioRoutes = require('./routes/audioRoutes');
 const authRoutes = require('./routes/authRoutes');
 const recordingsRoutes = require('./routes/recordingRoutes');
+const sessionRoutes = require('./routes/sessionRoutes');
 const timeoutMiddleware = require('./middleware/timeoutMiddleware');
 const accRoutes = require('./routes/accRoutes');
 require('dotenv').config();
@@ -41,9 +42,10 @@ app.use(session({
 // Hlavní stránkas
 app.use(timeoutMiddleware);
 app.use('/record', audioRoutes);
-app.use("/auth", authRoutes)
+app.use("/auth", authRoutes);
 app.use('/recordings', recordingsRoutes);
-app.use("/account", accRoutes)
+app.use("/account", accRoutes);
+app.use("/session", sessionRoutes);
 
 
 

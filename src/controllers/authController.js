@@ -37,11 +37,12 @@ exports.registerUser = async (req, res) => {
 };
 
 // ✅ Přihlášení uživatele
+// ✅ Přihlášení uživatele
+// ✅ Přihlášení uživatele
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
-    const { deviceType, multipleDevices } = res.locals;
-    console.log("devicetype je")
-    console.log(deviceType)
+    const { deviceType } = res.locals;
+
     try {
         const user = await Member.findOne({ where: { email } });
         if (!user) {
@@ -52,21 +53,28 @@ exports.loginUser = async (req, res) => {
         if (!isMatch) {
             return res.status(400).send('Nesprávný email nebo heslo.');
         }
-        console.log("userid je")
-        console.log(user.id)
+
+        // Po úspěšném přihlášení uložíme uživatelské ID do session
         req.session.userId = user.id;
+
+        // Vytvoříme novou session v databázi pro tohoto uživatele
         const newSession = await UserSession.create({
             memberId: user.id,
             deviceType: deviceType,  // Uložení deviceType do session
-            token: req.sessionID,  // Použití session ID jako token
+            isRecording: false,      // Inicializujeme isRecording na false (zatím nenahrává)
+            recordingId: null,       // Inicializujeme recordingId na null (zatím žádná nahrávka)
+            sessionId: req.session.id,  // Uložení session ID (z express-session) do databáze
         });
-        res.redirect('/record');
+
+        res.redirect('/record');  // Po přihlášení přesměrujeme na stránku pro nahrávání
 
     } catch (error) {
         console.error('❌ Chyba při přihlášení:', error);
         res.status(500).send('Chyba při přihlášení.');
     }
 };
+
+
 
 // ✅ Odhlášení uživatele
 exports.logoutUser = async (req, res) => {
