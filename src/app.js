@@ -4,7 +4,7 @@ const path = require('path');
 const audioRoutes = require('./routes/audioRoutes');
 const authRoutes = require('./routes/authRoutes');
 const recordingsRoutes = require('./routes/recordingRoutes');
-const sessionRoutes = require('./routes/sessionRoutes');
+
 const timeoutMiddleware = require('./middleware/timeoutMiddleware');
 const accRoutes = require('./routes/accRoutes');
 const logger = require('./utils/logger');
@@ -46,7 +46,7 @@ app.use('/record', audioRoutes);
 app.use("/auth", authRoutes);
 app.use('/recordings', recordingsRoutes);
 app.use("/account", accRoutes);
-app.use("/session", sessionRoutes);
+
 
 
 
