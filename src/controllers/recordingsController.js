@@ -50,9 +50,9 @@ exports.getUserRecordings = async (req, res) => {
 exports.updateClickCount = async (recordingId, clickCount) => {
     try {
         // Najdi nahrávku podle recordingId
-        console.log(recordingId)
+        //console.log(recordingId)
         const recording = await Recording.findOne({ where: { recording_id: recordingId } });
-        console.log(recording)
+        //console.log(recording)
         // Pokud nahrávka neexistuje, vrátíme chybu
         if (!recording) {
             throw new Error('Nahrávka nenalezena.');
@@ -74,9 +74,9 @@ exports.updateClickCount = async (recordingId, clickCount) => {
 exports.updateDuration = async (recordingId, duration) => {
     try {
         // Najdi nahrávku podle recordingId
-        console.log(recordingId)
+        //console.log(recordingId)
         const recording = await Recording.findOne({ where: { recording_id: recordingId } });
-        console.log(recording)
+        //console.log(recording)
         // Pokud nahrávka neexistuje, vrátíme chybu
         if (!recording) {
             throw new Error('Nahrávka nenalezena.');

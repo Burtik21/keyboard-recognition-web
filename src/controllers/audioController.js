@@ -25,7 +25,7 @@ exports.getAudioPage = async (req, res) => {
         const activeSessions = await UserSession.findAll({
             where: { memberId: userId, active: true }  // Hledáme pouze aktivní session
         });
-        console.log(activeSessions)
+        //console.log(activeSessions)
         // Zkontrolujeme, jestli existuje nějaká session s deviceType = 'mobile'
         const hasMobileSession = activeSessions.some(session => session.deviceType === 'mobile');
 
@@ -59,10 +59,10 @@ exports.uploadAudio = async (req, res) => {
         recordingsController.updateDuration(recordingId,1)
 
         console.log("recording id JE:")
-        console.log(recordingId)
+        //console.log(recordingId)
 
         wav_path = await wavProcesess.saveWav(inputPath)
-        logger.info(wav_path)
+        //logger.info(wav_path)
 
         response = await pythonHandover.sendToPython(wav_path, recordingId)
         console.log("python odpoved:", response);

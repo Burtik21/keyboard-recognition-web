@@ -6,7 +6,7 @@ exports.updateSession = async (req, res) => {
     const { recordingId, isRecording } = req.body;  // Získáme recordingId a isRecording z požadavku
     const sessionId = req.session.id;  // sessionId získáme z req.session
 
-    console.log("session id je: " + sessionId);
+    //console.log("session id je: " + sessionId);
 
     if (sessionId === undefined || recordingId === undefined || isRecording === undefined) {
         return res.status(400).json({ error: 'sessionId, recordingId a isRecording jsou povinné.' });
@@ -33,7 +33,7 @@ exports.updateSession = async (req, res) => {
             });
 
             if (!session) {
-                console.error(`Session s ID ${sessionId} nebyla nalezena.`);
+                //console.error(`Session s ID ${sessionId} nebyla nalezena.`);
                 return res.status(404).json({ error: 'Session nebyla nalezena.' });
             }
 
@@ -43,7 +43,7 @@ exports.updateSession = async (req, res) => {
                 recordingId: recordingId   // Přiřadíme recordingId
             });
 
-            console.log(`Session ID: ${sessionId} byla aktualizována. isRecording: ${isRecording}, recordingId: ${recordingId}`);
+            //console.log(`Session ID: ${sessionId} byla aktualizována. isRecording: ${isRecording}, recordingId: ${recordingId}`);
 
             return res.status(200).json({
                 message: `Session ID: ${sessionId} byla úspěšně aktualizována.`,
@@ -66,7 +66,7 @@ exports.updateSession = async (req, res) => {
                 recordingId: null    // Vyčistíme recordingId
             });
 
-            console.log(`Session ID: ${sessionId} byla zastavena. isRecording: ${isRecording}`);
+            //console.log(`Session ID: ${sessionId} byla zastavena. isRecording: ${isRecording}`);
 
             return res.status(200).json({
                 message: `Nahrávání bylo zastaveno pro session ID: ${sessionId}`,
