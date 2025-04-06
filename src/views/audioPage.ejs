@@ -44,7 +44,16 @@
   async function startRecording() {
 
     // Zavoláme endpoint pro vytvoření nové nahrávky
+    const response = await fetch('/recordings/create', { method: 'POST' });
+    const data = await response.json();
 
+    if (data.recordingId) {
+      recordingId = data.recordingId;  // Uložíme ID nahrávky pro pozdější použití
+      console.log('Nahrávka vytvořena s ID:', recordingId);
+    } else {
+      console.error('Chyba při vytváření nahrávky');
+      return;
+    }
 
     // Nastavení pro nahrávání
     stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -95,6 +104,7 @@
         body: formData
       });
       const data = await res.json();
+      console.log("data co vraci python na front end ", data.pythonResponse)
 
     } catch (err) {
       console.error("Chyba při uploadu chunku:", err);
@@ -106,130 +116,33 @@
     recordingId = null;
     if (stream) stream.getTracks().forEach(track => track.stop());
   }
+function activeButton() {
+
+  }
   const recordButton = document.getElementById("recordButton");
   const buttonText = document.getElementById("buttonText");
-  let recording_local = false;  // Lokální stav pro grafiku
-
+  let recording_local = false;
   recordButton.addEventListener("click", async () => {
     if (recording_local) {
-      // Pokud nahráváme, zastavíme nahrávání
+
+      //sem dame ze prestaneme nahrvaat
+
       recordButton.classList.remove('active');
-      await stopRecording();  // Zavoláme metodu pro zastavení nahrávání
-      await stopRecordingSession();  // Zavoláme endpoint pro zastavení nahrávání na backendu
+      stopRecording();
       recording_local = false;
       buttonText.textContent = "START";
     } else {
-      // Před zahájením nahrávání musíme zkontrolovat, zda můžeme začít
-      const canRecord = await checkRecordingStatus();  // Zavoláme funkci pro kontrolu, zda nahrávání není již aktivní
-      if (canRecord) {
-        // Pokud můžeme začít nahrávat, přepneme stav tlačítka a zahájíme nahrávání
-        recordButton.classList.toggle('active');
-        await startRecording();
-        await startRecordingSession()// Zavoláme endpoint pro zahájení nahrávání
-        recording_local = true;
-        buttonText.textContent = "STOP";
-      } else {
-        // Pokud nemůžeme nahrávat, neuděláme nic
-        console.log("Nahrávání již probíhá na jiném zařízení.");
-      }
+
+      //
+
+
+
+      recordButton.classList.toggle('active');
+      await startRecording();
+      recording_local = true;
+      buttonText.textContent = "STOP";
     }
   });
-
-  // Funkce pro zastavení nahrávání na backendu
-  const stopRecordingSession = async () => {
-    try {
-      console.log("recording id je: " + recordingId)
-      const response = await fetch('/session/update', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          isRecording: false,
-          recordingId: null  // Resetujeme recordingId při zastavení
-        })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("Nahrávání bylo zastaveno.");
-      } else {
-        console.error("Chyba při zastavení nahrávání:", data.error);
-      }
-    } catch (error) {
-      console.error("Chyba při zastavení nahrávání:", error);
-    }
-  };
-
-  // Funkce pro kontrolu, zda můžeme začít nahrávat
-  const checkRecordingStatus = async () => {
-    const response = await fetch('/recordings/create', { method: 'POST' });
-    const data = await response.json();
-
-    if (data.recordingId) {
-      recordingId = data.recordingId;  // Uložíme ID nahrávky pro pozdější použití
-      console.log('Nahrávka vytvořena s ID:', recordingId);
-    } else {
-      console.error('Chyba při vytváření nahrávky');
-      return;
-    }
-
-
-
-
-    try {
-      const response = await fetch('/session/update', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ isRecording: false, recordingId: recordingId })  // Fake data pro kontrolu
-      });
-
-      const data = await response.json();
-      console.log("data isrecording: " + data.isRecording)
-      if (!data.isRecording) {
-        return true;  // Můžeme začít nahrávat
-      } else {
-        alert('Nahrávání již probíhá na jiném zařízení.');
-        return false;  // Nahrávání probíhá, nemůžeme začít
-      }
-    } catch (error) {
-      console.error("Chyba při komunikaci se serverem:", error);
-      return false;  // Pokud nastala chyba, nebudeme moci začít nahrávat
-    }
-  };
-
-
-
-
-  // Funkce pro zahájení nahrávání na backendu
-  const startRecordingSession = async () => {
-    try {
-      const response = await fetch('/session/update', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          isRecording: true,
-          recordingId: recordingId  // Unikátní ID pro nové nahrávání
-        })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("Nahrávání bylo zahájeno.");
-      } else {
-        console.error("Chyba při startování nahrávání:", data.error);
-      }
-    } catch (error) {
-      console.error("Chyba při startování nahrávání:", error);
-    }
-  };
-
 
 </script>
 </body>
