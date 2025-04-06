@@ -4,6 +4,9 @@ Tento projekt se zaměřuje na klasifikaci zvuku, přesněji zvuku klávesnice. 
 Nejvíce jsem se orientoval podle spektrogramu  
 ![image](https://github.com/user-attachments/assets/a801a840-0524-45e8-bfe7-0fa19546db25)
 
+
+https://github.com/Burtik21/keyboard-recognition-web  
+https://github.com/Burtik21/record-sound
 ## Funkce
 -  Real time **Záznam zvuku**
 - **Detekce klávesových stisků**: Aplikace analyzuje zvukové vzory generované při stisku klávesy
