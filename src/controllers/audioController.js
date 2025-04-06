@@ -68,22 +68,6 @@ exports.uploadAudio = async (req, res) => {
         console.log("python odpoved:", response);
 
 
-        if (response && response.clicks !== undefined) {
-            // Volání metody pro aktualizaci session (po obdržení odpovědi z Pythonu)
-            const updateResponse = await fetch('/session/update', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userId: req.session.userId,  // Uživatelské ID z session
-                    clicks: response.clicks       // Počet kliků z Pythonu
-                })
-            });
-
-            const updateData = await updateResponse.json();
-            console.log("Aktualizace session:", updateData);
-        }
 
         res.status(200).jsonp({ log: "zpracováno", pythonResponse: response });
 
