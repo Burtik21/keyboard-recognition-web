@@ -725,6 +725,55 @@ tbody tr {
     display: flex;
     flex-direction: column;
 }
+/* MOBILE STYLES */
+@media (max-width: 800px) {
+    /* Pro mobilní zařízení - přizpůsobení velikosti tlačítek a textů */
+    .play-button {
+        font-size: 18px;
+        padding: 12px 20px;
+    }
+
+    .record-button {
+        width: 150px;
+        height: 150px;
+        font-size: 30px;
+    }
+
+    .description {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .down {
+        margin-top: 20px;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .file-name, .click-count, .created-at {
+        font-size: 16px;
+    }
+
+    /* Upravíme tabulku pro mobilní zařízení */
+    table {
+        width: 100%;  /* Tabulka bude mít 100% šířky na mobilu */
+        margin: 10px 0;
+    }
+
+    th, td {
+        font-size: 14px;  /* Měnší písmo pro mobil */
+        padding: 8px;
+    }
+
+    .recordings-container p {
+        font-size: 16px;
+    }
+
+    .record-button {
+        width: 800px;
+        height: 800px;
+    }
+}
 
 
 
